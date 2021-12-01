@@ -1,0 +1,38 @@
+###
+GET http://localhost:3000/api/invalido
+
+###
+GET http://localhost:3000/api/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNGU2ZmMxY2FmN2QyNTJmMmYzYzc1ZSIsImVtYWlsIjoianRvbGVkb0BvdXRsb29rLmNsIiwiaWF0IjoxNjMzMTAyNTc5LCJleHAiOjE2MzMxMDI2Mzl9.PbMRXrU7mfvroxyeBAAVEyBuUDjDC8_6hdJvvBtKrTA
+
+###
+GET http://localhost:3000/api/tasks/ljdlq4u23423482834
+
+###
+GET http://localhost:3000/api/tasks/614d2bc78d68d34e399fe7f2
+
+###
+GET http://localhost:3000/api/tasks/done
+
+###
+DELETE http://localhost:3000/api/tasks/614d16615a83d75ba0e4326e
+
+###
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "done": true,
+  "title": "My first task 2",
+  "description": "My first task description 2"
+}
+
+###
+PUT http://localhost:3000/api/tasks/614d2bc78d68d34e399fe7f2
+Content-Type: application/json
+
+{
+  "done": true,
+  "title": "My first task 4534",
+  "description": "My first task description 34534"
+}

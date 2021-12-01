@@ -1,0 +1,18 @@
+###
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Jonathan Toledo",
+  "email": "jtoledo@outlook.cl",
+  "password": "12345678"
+}
+
+###
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{
+  "email": "jtoledo@outlook.cl",
+  "password": "12345678"
+}
