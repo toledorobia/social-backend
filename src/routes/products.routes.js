@@ -1,12 +1,14 @@
-import { Router } from 'express';
-import { validate, verifyCookie, verifyToken } from '../utils/middlewares';
-import * as productsController from '../controllers/products/products.controller';
-import * as productsSchema from '../controllers/products/products.schema';
+import { Router } from "express";
+import { validate, verifyCookie, verifyToken } from "../utils/middlewares";
+import * as productsController from "../controllers/products/products.controller";
+import * as productsSchema from "../controllers/products/products.schema";
 
 const router = Router();
 
+router.get("/", productsController.getProducts);
+
 router.post(
-  "/", 
+  "/",
   verifyToken(["admin"]),
   productsController.imagesProductsUpload.array("images"),
   validate(productsSchema.createSchema),
@@ -14,7 +16,7 @@ router.post(
 );
 
 router.put(
-  "/", 
+  "/",
   verifyToken(["admin"]),
   productsController.imagesProductsUpload.array("images"),
   validate(productsSchema.updateSchema),

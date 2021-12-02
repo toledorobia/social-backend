@@ -1,38 +1,41 @@
-import multer from 'multer';
-import config from '../../config';
-import { httpError } from '../../utils/errors';
-import { makeFilename, valueOrDefault, isSomething } from '../../utils/helpers';
-import Product from '../../models/product.model';
-import productModel from '../../models/product.model';
+import multer from "multer";
+import config from "../../config";
+import { httpError } from "../../utils/errors";
+import { makeFilename, valueOrDefault, isSomething } from "../../utils/helpers";
+import Product from "../../models/product.model";
+import productModel from "../../models/product.model";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './public/images/products');
+    cb(null, "./public/images/products");
   },
   filename: (req, file, cb) => {
     cb(null, makeFilename(file.originalname));
   },
 });
 
-export const imagesProductsUpload = multer({ 
+export const imagesProductsUpload = multer({
   storage,
   limits: { fileSize: 5000000 },
   fileFilter: (req, file, cb) => {
-    const mimes = [
-      'image/jpg',
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-    ];
+    const mimes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
 
     if (mimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(httpError(400, 'Invalid file type. Only images.'), false);
+      cb(httpError(400, "Invalid file type. Only images."), false);
     }
   },
 });
 
+export const getProducts = async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (error) {
+    return next(httpError(500, "Can't get products."));
+  }
+};
 
 export const create = async (req, res, next) => {
   console.log(req.files);
@@ -41,7 +44,7 @@ export const create = async (req, res, next) => {
   const repeat = await Product.findRepeated(name);
 
   if (repeat) {
-    return next(httpError(400, 'Product already exists.'));
+    return next(httpError(400, "Product already exists."));
   }
 
   const product = new Product({
@@ -49,13 +52,13 @@ export const create = async (req, res, next) => {
     description,
     price,
     quantity,
-    images: req.files ? req.files.map(file => ({ path: file.filename })) : [],
+    images: req.files ? req.files.map((file) => ({ path: file.filename })) : [],
   });
 
   await product.save();
 
   res.json(product.toObject());
-}
+};
 
 export const edit = async (req, res, next) => {
   console.log(req.files);
@@ -64,13 +67,13 @@ export const edit = async (req, res, next) => {
   const product = await Product.findById(id);
 
   if (!product) {
-    return next(httpError(404, 'Product not found'));
+    return next(httpError(404, "Product not found"));
   }
 
   if (isSomething(name)) {
     const repeat = await Product.findRepeated(name, id);
     if (repeat) {
-      return next(httpError(400, 'Product with the same name already exists.'));
+      return next(httpError(400, "Product with the same name already exists."));
     }
   }
 
@@ -80,10 +83,10 @@ export const edit = async (req, res, next) => {
   product.quantity = valueOrDefault(quantity, product.quantity);
 
   if (req.files) {
-    product.images = req.files.map(file => ({ path: file.filename }));
+    product.images = req.files.map((file) => ({ path: file.filename }));
   }
 
   await product.save();
 
   res.json(product.toObject());
-}
+};

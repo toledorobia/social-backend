@@ -26,7 +26,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/test", TestRoutes);
 // app.use("/api/auth", AuthRoutes);
-// app.use("/api/products", ProductsRoutes);
+app.use("/api/products", ProductsRoutes);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");
