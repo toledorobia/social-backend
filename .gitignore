@@ -12,6 +12,8 @@ Desktop.ini
 .directory
 *~
 
+# firebase
+firebase-service-account.json
 
 # npm
 dist
