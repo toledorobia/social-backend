@@ -15,7 +15,20 @@ router.post(
   postsController.createPost
 );
 
-router.delete("/:id", verifyToken(), postsController.deletePost);
+router.delete(
+  "/:id",
+  verifyToken(),
+  validate(postsSchema.deletePostSchema),
+  postsController.deletePost
+);
+
+router.post(
+  "/like/:id",
+  verifyToken(),
+  validate(postsSchema.likePostSchema),
+  postsController.likePost
+);
+
 // router.put(
 //   "/",
 //   verifyToken(["admin"]),

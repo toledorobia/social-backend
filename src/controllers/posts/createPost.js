@@ -4,6 +4,27 @@ import { httpError } from "../../utils/errors";
 import { makeFilename, valueOrDefault, isSomething } from "../../utils/helpers";
 import { Post } from "../../models";
 
+const createPost = async (req, res, next) => {
+  console.log(req.files);
+
+  const { content, image } = req.body;
+
+  const post = new Post({
+    user: {
+      userId: req.user._id,
+      name: req.user.name,
+      avatar: req.user.avatar,
+    },
+    content,
+    image,
+  });
+
+  await post.save();
+
+  const { deleted, ..._post } = post.toObject();
+  res.json({ _post });
+};
+
 // const storage = multer.diskStorage({
 //   destination: (req, file, cb) => {
 //     cb(null, "./public/images/products");
@@ -26,24 +47,5 @@ import { Post } from "../../models";
 //     }
 //   },
 // });
-
-const createPost = async (req, res, next) => {
-  console.log(req.files);
-
-  const { content, image } = req.body;
-
-  const post = new Post({
-    user: {
-      userId: req.user._id,
-      name: req.user.name,
-      avatar: req.user.avatar,
-    },
-    content,
-    image,
-  });
-
-  await post.save();
-  res.json(post.toObject());
-};
 
 export default createPost;

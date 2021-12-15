@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { User } from "../../models";
 import { httpError } from "../../utils/errors";
 
@@ -16,6 +17,7 @@ const signUp = async (req, res, next) => {
     name,
     email,
     password: passwordHash,
+    avatar: null,
   });
 
   await user.save();

@@ -10,11 +10,24 @@ const deletePost = async (req, res, next) => {
     return next(httpError(404, "Post not found"));
   }
 
-  // await Post.remove({ _id: id }, );
+  post.deleted = true;
+  await post.save();
+
   res.json({
     status: true,
     message: "Post deleted successfully",
   });
+
+  // Post.deleteOne({ _id: id }, (err) => {
+  //   if (err) {
+  //     return next(httpError(500, "Internal server error"));
+  //   } else {
+  //     res.json({
+  //       status: true,
+  //       message: "Post deleted successfully",
+  //     });
+  //   }
+  // });
 };
 
 export default deletePost;

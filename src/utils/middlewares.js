@@ -1,5 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongoose";
 import config from "../config";
 import { User, Token } from "../models";
 import { httpError, clearYupPath } from "./errors";
@@ -54,11 +55,11 @@ export const verifyToken =
 
       const dbToken = await Token.findOne({
         user: user._id,
-        token: sha256(token),
+        authToken: sha256(token),
       });
 
       if (!dbToken || dbToken.expired) {
-        return next(httpError(401, "User not found"));
+        return next(httpError(401, "Token not valid."));
       }
 
       req.user = user;

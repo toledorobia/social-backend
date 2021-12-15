@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const deletePostSchema = yup.object({
+const likeCommentSchema = yup.object({
   params: yup.object({
     id: yup
       .string()
@@ -10,4 +10,4 @@ const deletePostSchema = yup.object({
   }),
 });
 
-export default deletePostSchema;
+export default likeCommentSchema;

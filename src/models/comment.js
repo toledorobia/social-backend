@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { profileSchema } from "./user";
+import { likeSchema } from "./like";
 
 export const commentSchema = new Schema(
   {
@@ -18,6 +19,7 @@ export const commentSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    likes: [likeSchema],
   },
   {
     versionKey: false,

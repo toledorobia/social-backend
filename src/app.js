@@ -7,6 +7,7 @@ import { httpError } from "./utils/errors";
 
 import authRoutes from "./routes/authRoutes";
 import postsRoutes from "./routes/postsRoutes";
+import commentsRoutes from "./routes/commentsRoutes";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
+app.use("/api/comments", commentsRoutes);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");
