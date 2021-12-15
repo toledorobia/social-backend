@@ -11,7 +11,7 @@ const likePost = async (req, res, next) => {
     return next(httpError(404, "Post not found"));
   }
 
-  const exists = _.some(post.likes, { userId: req.user._id });
+  const exists = _.some(post.likes, { user: req.user._id });
   if (!exists) {
     await Post.updateOne(
       {
@@ -20,7 +20,7 @@ const likePost = async (req, res, next) => {
       {
         $push: {
           likes: {
-            userId: req.user._id,
+            user: req.user._id,
           },
         },
       }
@@ -35,7 +35,7 @@ const likePost = async (req, res, next) => {
       {
         $pull: {
           likes: {
-            userId: req.user._id,
+            user: req.user._id,
           },
         },
       }

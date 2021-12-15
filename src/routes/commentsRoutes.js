@@ -5,6 +5,13 @@ import * as commentsSchema from "../schemas/comments";
 
 const router = Router();
 
+router.get(
+  "/post/:postId",
+  verifyToken(),
+  validate(commentsSchema.getPostCommentsSchema),
+  commentsController.getPostComments
+);
+
 router.post(
   "/",
   verifyToken(),

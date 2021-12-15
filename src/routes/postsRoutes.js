@@ -7,6 +7,8 @@ const router = Router();
 
 // router.get("/", postsController.getposts);
 
+router.get("/feed", verifyToken(), postsController.feedPosts);
+
 router.post(
   "/",
   verifyToken(),

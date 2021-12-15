@@ -11,7 +11,7 @@ const likeComment = async (req, res, next) => {
     return next(httpError(404, "Comment not found"));
   }
 
-  const exists = _.some(comment.likes, { userId: req.user._id });
+  const exists = _.some(comment.likes, { user: req.user._id });
   if (!exists) {
     await Comment.updateOne(
       {
@@ -20,7 +20,7 @@ const likeComment = async (req, res, next) => {
       {
         $push: {
           likes: {
-            userId: req.user._id,
+            user: req.user._id,
           },
         },
       }
@@ -35,7 +35,7 @@ const likeComment = async (req, res, next) => {
       {
         $pull: {
           likes: {
-            userId: req.user._id,
+            user: req.user._id,
           },
         },
       }
