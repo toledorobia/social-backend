@@ -8,7 +8,8 @@
     "clean": "rimraf dist",
     "build": "npm run clean && babel ./src --out-dir dist --copy-files",
     "start": "node dist/index.js",
-    "seed": "babel-node src/seed.js"
+    "seed": "babel-node src/seed.js",
+    "heroku-postbuild": "echo Skip build on Heroku"
   },
   "keywords": [],
   "author": "Jonathan Toledo Orobia <dev.toledorobia@outlook.com> (https://github.com/toledorobia)",
@@ -41,5 +42,6 @@
     "@babel/preset-env": "^7.15.8",
     "faker": "^5.5.3",
     "nodemon": "^2.0.13"
-  }
+  },
+  "heroku-run-build-script": true
 }
