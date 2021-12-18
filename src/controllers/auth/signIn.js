@@ -5,6 +5,7 @@ import config from "../../config";
 import { User, Token } from "../../models";
 import { httpError } from "../../utils/errors";
 import { sha256 } from "../../utils/helpers";
+import { getTokens, setRefreshToken } from "../../utils/tokens";
 
 const signIn = async (req, res, next) => {
   const { email, password } = req.body;
@@ -19,31 +20,14 @@ const signIn = async (req, res, next) => {
     return next(httpError(401, "User or password invalid"));
   }
 
-  // const oldToken = await Token.findOne({ user: user._id, expired: false });
-  // if (oldToken) {
-  //   oldToken.expired = true;
-  //   await oldToken.save();
-  // }
-
   await Token.updateMany({ user: user._id, expired: false }, { expired: true });
 
-  const token = jwt.sign(
+  const { token, refreshToken } = getTokens(
     {
       id: user._id,
       email: user.email,
     },
-    config.tokenSecret,
-    { expiresIn: "10h" }
-  );
-
-  const refreshToken = jwt.sign(
-    {
-      id: user._id,
-      email: user.email,
-      refresh: true,
-    },
-    config.tokenSecret,
-    { expiresIn: "6h" }
+    config.tokenSecret
   );
 
   const tokenDb = new Token({
@@ -54,7 +38,10 @@ const signIn = async (req, res, next) => {
 
   await tokenDb.save();
 
-  res.json({ status: true, token, refreshToken });
+  const { deleted, password: passwordUser, ...userData } = user.toObject();
+
+  setRefreshToken(res, refreshToken);
+  res.json({ status: true, user: userData, token });
 };
 
 export default signIn;

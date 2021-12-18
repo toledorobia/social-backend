@@ -5,6 +5,7 @@ import config from "../config";
 import { User, Token } from "../models";
 import { httpError, clearYupPath } from "./errors";
 import { sha256 } from "./helpers";
+import { verifyToken as verifyTokenFunc } from "./tokens";
 
 export const validate = (schema) => async (req, res, next) => {
   try {
@@ -37,7 +38,7 @@ export const validate = (schema) => async (req, res, next) => {
 export const verifyToken =
   (roles = []) =>
   async (req, res, next) => {
-    const authorization = req.header("authorization");
+    const authorization = req.header("Authorization");
 
     if (!authorization) {
       return next(httpError(401, "No token provided"));
@@ -45,8 +46,10 @@ export const verifyToken =
 
     try {
       const token = authorization.replace("Bearer ", "");
-      const verified = jwt.verify(token, config.tokenSecret);
-      // console.log("jwt", verified);
+      const verified = verifyTokenFunc(token, config.tokenSecret);
+      if (verified === false) {
+        return next(httpError(401, "Invalid token"));
+      }
 
       const user = await User.findOne({ _id: verified.id });
       if (!user) {

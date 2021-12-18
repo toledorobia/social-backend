@@ -16,7 +16,12 @@ const app = express();
 app.set("port", process.env.PORT || 8080);
 
 // middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use("/static", express.static("public"));
 app.use(morgan("dev"));
 app.use(express.json());

@@ -17,7 +17,7 @@ router.post(
 );
 router.post(
   "/refresh",
-  validate(authSchema.refreshSchema),
+  // validate(authSchema.refreshSchema),
   authController.refresh
 );
 
@@ -28,6 +28,7 @@ router.post(
   validate(authSchema.updateProfileSchema),
   authController.updateProfile
 );
+router.get("/check", verifyToken(), authController.check);
 router.get("/test", verifyToken(), authController.test);
 
 export default router;

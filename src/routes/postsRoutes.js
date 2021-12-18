@@ -8,6 +8,12 @@ const router = Router();
 // router.get("/", postsController.getposts);
 
 router.get("/feed", verifyToken(), postsController.feedPosts);
+router.get(
+  "/profile/:userId?",
+  verifyToken(),
+  validate(postsSchema.profilePostsSchema),
+  postsController.profilePosts
+);
 
 router.post(
   "/",

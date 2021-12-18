@@ -25,11 +25,11 @@ const tokenSchema = new Schema(
   }
 );
 
-tokenSchema.methods.isExpired = function isExpired() {
+tokenSchema.methods.isExpired = function () {
   return this.expired;
 };
 
-tokenSchema.methods.setExpired = async function setExpired() {
+tokenSchema.methods.setExpired = async function () {
   this.expired = true;
   await this.save();
 };
