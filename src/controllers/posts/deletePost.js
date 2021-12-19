@@ -1,5 +1,5 @@
 import config from "../../config";
-import { httpError } from "../../utils/errors";
+import { httpError } from "../../libs/errors";
 import { Post } from "../../models";
 
 const deletePost = async (req, res, next) => {

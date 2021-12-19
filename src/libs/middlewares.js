@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongoose";
 import config from "../config";
 import { User, Token } from "../models";
-import { httpError, clearYupPath } from "./errors";
+import { HttpException, clearYupPath, httpError } from "./errors";
 import { sha256 } from "./helpers";
 import { verifyToken as verifyTokenFunc } from "./tokens";
 
@@ -31,7 +31,8 @@ export const validate = (schema) => async (req, res, next) => {
       return acc;
     }, []);
 
-    next(httpError(400, "Validation error", errors));
+    // next(httpError(400, "Validation error", errors));
+    next(new HttpException(400, "Validation error", errors));
   }
 };
 
@@ -40,35 +41,23 @@ export const verifyToken =
   async (req, res, next) => {
     const authorization = req.header("Authorization");
 
-    if (!authorization) {
-      return next(httpError(401, "No token provided"));
-    }
-
     try {
+      if (!authorization) {
+        throw new HttpException(401, "No token provided");
+      }
+
       const token = authorization.replace("Bearer ", "");
       const verified = verifyTokenFunc(token, config.tokenSecret);
-      if (verified === false) {
-        return next(httpError(401, "Invalid token"));
-      }
-
       const user = await User.findOne({ _id: verified.id });
+
       if (!user) {
-        return next(httpError(401, "User not found"));
-      }
-
-      const dbToken = await Token.findOne({
-        user: user._id,
-        authToken: sha256(token),
-      });
-
-      if (!dbToken || dbToken.expired) {
-        return next(httpError(401, "Token not valid."));
+        throw new HttpException(401, "User not found");
       }
 
       req.user = user;
       next();
     } catch (error) {
       console.log("verifyToken error", error);
-      next(httpError(401, "Invalid token"));
+      next(error);
     }
   };

@@ -4,7 +4,7 @@ const signUpSchema = yup.object({
   body: yup.object({
     name: yup.string().required().label("Name"),
     email: yup.string().email().required().label("Email"),
-    password: yup.string().min(8).required().label("Password"),
+    password: yup.string().min(6).required().label("Password"),
   }),
 });
 

@@ -1,5 +1,5 @@
 import config from "../../config";
-import { httpError } from "../../utils/errors";
+import { httpError } from "../../libs/errors";
 import { Comment } from "../../models";
 import _ from "lodash";
 

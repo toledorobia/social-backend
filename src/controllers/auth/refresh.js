@@ -1,46 +1,25 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import config from "../../config";
-import { User, Token } from "../../models";
-import { httpError } from "../../utils/errors";
-import { sha256 } from "../../utils/helpers";
-import { setRefreshToken, verifyToken, getTokens } from "../../utils/tokens";
+import { User } from "../../models";
+import { HttpException } from "../../libs/errors";
+import { setRefreshToken, verifyToken, getTokens } from "../../libs/tokens";
 
 const refresh = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.token;
+    console.log("refreshToken", refreshToken);
     if (!refreshToken) {
-      return next(httpError(401, "No token provided"));
-    }
-
-    const tokenDb = await Token.findOne({ refreshToken: sha256(refreshToken) });
-    if (!tokenDb) {
-      return next(httpError(401, "Refresh token invalid"));
-    }
-
-    if (tokenDb.isExpired()) {
-      return next(httpError(401, "Refresh token expired"));
+      throw new HttpException(401, "No refresh token provided");
     }
 
     const verified = verifyToken(refreshToken, config.tokenSecret);
     if (verified === false || verified.refresh !== true) {
-      await tokenDb.setExpired();
-      return next(httpError(401, "Refresh token invalid"));
+      throw new HttpException(401, "Refresh token invalid");
     }
 
     const user = await User.findOne({ _id: verified.id });
     if (!user) {
-      await tokenDb.setExpired();
-      return next(httpError(401, "User invalid"));
+      throw new HttpException(401, "User not found");
     }
-
-    //console.log(verified, user, tokenDb);
-    if (!user._id.equals(tokenDb.user)) {
-      await tokenDb.setExpired();
-      return next(httpError(401, "User and token invalid"));
-    }
-
-    await tokenDb.setExpired();
 
     const { token: newToken, refreshToken: newRefreshToken } = getTokens(
       {
@@ -50,18 +29,10 @@ const refresh = async (req, res, next) => {
       config.tokenSecret
     );
 
-    const newTokenDb = new Token({
-      authToken: sha256(newToken),
-      refreshToken: sha256(newRefreshToken),
-      user: user._id,
-    });
-
-    await newTokenDb.save();
-
     setRefreshToken(res, newRefreshToken);
     res.json({ status: true, token: newToken });
   } catch (error) {
-    next(httpError(500, error.message));
+    next(error);
   }
 };
 

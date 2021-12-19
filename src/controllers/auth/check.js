@@ -1,11 +1,10 @@
-import { httpError } from "../../utils/errors";
+import { HttpException } from "../../libs/errors";
 
 const check = async (req, res, next) => {
   try {
-    const { deleted, password, ...user } = req.user.toObject();
-    res.json({ status: true, user });
+    res.json({ status: true, user: req.user.cleanObject() });
   } catch (error) {
-    next(httpError(401, error.message));
+    next(new HttpException(500, error.message));
   }
 };
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, verifyCookie, verifyToken } from "../utils/middlewares";
+import { validate, verifyCookie, verifyToken } from "../libs/middlewares";
 import * as commentsController from "../controllers/comments";
 import * as commentsSchema from "../schemas/comments";
 

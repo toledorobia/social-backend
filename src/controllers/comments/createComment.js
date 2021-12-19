@@ -1,7 +1,4 @@
-import multer from "multer";
-import config from "../../config";
-import { httpError } from "../../utils/errors";
-import { makeFilename, valueOrDefault, isSomething } from "../../utils/helpers";
+import { httpError } from "../../libs/errors";
 import { Post, Comment } from "../../models";
 
 const createComment = async (req, res, next) => {
@@ -23,6 +20,7 @@ const createComment = async (req, res, next) => {
   });
 
   await comment.save();
+  // eslint-disable-next-line no-unused-vars
   const { deleted, ..._comment } = comment.toObject();
   res.json(_comment);
 };

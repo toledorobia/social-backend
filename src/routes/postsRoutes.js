@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, verifyCookie, verifyToken } from "../utils/middlewares";
+import { validate, verifyCookie, verifyToken } from "../libs/middlewares";
 import * as postsController from "../controllers/posts";
 import * as postsSchema from "../schemas/posts";
 

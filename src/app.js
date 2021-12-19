@@ -3,8 +3,6 @@ import cors from "cors";
 import morgan from "morgan";
 import { validationResult } from "express-validator";
 
-import { httpError } from "./utils/errors";
-
 import authRoutes from "./routes/authRoutes";
 import postsRoutes from "./routes/postsRoutes";
 import commentsRoutes from "./routes/commentsRoutes";

@@ -46,6 +46,21 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
+    emailVerified: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    hashMail: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+    hashPasswordRecovery: {
+      type: String,
+      required: false,
+      trim: true,
+    },
     deleted: {
       type: Boolean,
       default: false,
@@ -56,5 +71,12 @@ const userSchema = new Schema(
     timestamps: true,
   }
 );
+
+userSchema.methods.cleanObject = function () {
+  const { password, deleted, hashMail, hashPassword, ...ouser } =
+    this.toObject();
+
+  return ouser;
+};
 
 export default model("User", userSchema);
