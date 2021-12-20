@@ -2,8 +2,6 @@ import _ from "lodash";
 import path from "path";
 import cryptoSHA256 from "crypto-js/sha256";
 import { v4 as uuidv4 } from "uuid";
-import { getStorage } from "firebase-admin/storage";
-// import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const sanitizeFilename = (filename) => {
   let name = filename.replace(/[^a-zA-Z0-9-_\.]/g, "_").trim();
@@ -46,3 +44,7 @@ export const createFileName = (ext = "") => {
   const name = sha256(new Date().getTime().toString() + uuidv4()).toString();
   return name.substring(0, 32) + (isSomething(ext) ? `.${ext}` : "");
 };
+
+export const createFirebaseStoreDownloadUrl = (bucket, pathFile, token) => {
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(pathFile)}?alt=media&token=${token}`;
+}
