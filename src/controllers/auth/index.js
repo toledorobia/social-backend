@@ -1,7 +1,6 @@
 import signUp from "./signUp";
 import signIn from "./signIn";
 import refresh from "./refresh";
-import updateProfile from "./updateProfile";
 import verifyEmail from "./verifyEmail";
 import sendPasswordResetEmail from "./sendPasswordResetEmail";
 import verifyPasswordResetHash from "./verifyPasswordResetHash";
@@ -14,7 +13,6 @@ export {
   signIn,
   signOut,
   refresh,
-  updateProfile,
   verifyEmail,
   sendPasswordResetEmail,
   verifyPasswordResetHash,

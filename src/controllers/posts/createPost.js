@@ -4,6 +4,21 @@ import { httpError } from "../../libs/errors";
 import { makeFilename, valueOrDefault, isSomething } from "../../libs/helpers";
 import { Post } from "../../models";
 
+const storage = multer.memoryStorage();
+export const uploadImageMulter = multer({
+  storage,
+  limits: { fileSize: 2000000 },
+  fileFilter: (req, file, cb) => {
+    const mimes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+
+    if (mimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new HttpException(400, "Invalid image"), false);
+    }
+  },
+});
+
 const createPost = async (req, res, next) => {
   console.log(req.files);
 
@@ -24,28 +39,5 @@ const createPost = async (req, res, next) => {
   const { deleted, ..._post } = post.toObject();
   res.json({ _post });
 };
-
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "./public/images/products");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, makeFilename(file.originalname));
-//   },
-// });
-
-// export const imagesProductsUpload = multer({
-//   storage,
-//   limits: { fileSize: 5000000 },
-//   fileFilter: (req, file, cb) => {
-//     const mimes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
-
-//     if (mimes.includes(file.mimetype)) {
-//       cb(null, true);
-//     } else {
-//       cb(httpError(400, "Invalid file type. Only images."), false);
-//     }
-//   },
-// });
 
 export default createPost;

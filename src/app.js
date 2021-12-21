@@ -4,6 +4,7 @@ import morgan from "morgan";
 
 import testRoutes from "./routes/testRoutes";
 import authRoutes from "./routes/authRoutes";
+import usersRoutes from "./routes/usersRoutes";
 import postsRoutes from "./routes/postsRoutes";
 import commentsRoutes from "./routes/commentsRoutes";
 import cookieParser from "cookie-parser";
@@ -29,6 +30,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/test", testRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", usersRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/comments", commentsRoutes);
 

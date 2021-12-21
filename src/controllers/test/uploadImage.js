@@ -18,7 +18,6 @@ export const uploadImageMulter = multer({
 });
 
 const uploadImage = async (req, res) => {
-  
   const url = await processImage(req.file, "./public/images");
 
   res.json({

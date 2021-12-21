@@ -21,13 +21,6 @@ router.post(
   // validate(authSchema.refreshSchema),
   authController.refresh
 );
-router.post(
-  "/profile",
-  verifyToken(),
-  // authController.avatarUpload.single("avatar"),
-  validate(authSchema.updateProfileSchema),
-  authController.updateProfile
-);
 router.get(
   "/email/verify/:id/:hash",
   validate(authSchema.verifyEmailSchema),

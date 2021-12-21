@@ -73,10 +73,11 @@ const userSchema = new Schema(
 );
 
 userSchema.methods.cleanObject = function () {
-  const { password, deleted, hashMail, hashPassword, ...ouser } =
+  // eslint-disable-next-line no-unused-vars
+  const { password, deleted, hashMail, hashPassword, _id: id, ...ouser } =
     this.toObject();
 
-  return ouser;
+  return { id, ...ouser };
 };
 
 export default model("User", userSchema);
