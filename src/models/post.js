@@ -7,7 +7,7 @@ const postSchema = new Schema(
     user: profileSchema,
     content: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     image: {
@@ -30,5 +30,11 @@ const postSchema = new Schema(
     timestamps: true,
   }
 );
+
+postSchema.methods.cleanObject = function () {
+  // eslint-disable-next-line no-unused-vars
+  const { deleted, _id: id, ...post } = this.toObject();
+  return { id, comments: [], ...post };
+};
 
 export default model("Post", postSchema);

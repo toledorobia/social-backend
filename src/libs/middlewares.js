@@ -1,10 +1,6 @@
-import express from "express";
-import jwt from "jsonwebtoken";
-import { ObjectId } from "mongoose";
 import config from "../config";
-import { User, Token } from "../models";
-import { HttpException, clearYupPath, httpError } from "./errors";
-import { sha256 } from "./helpers";
+import { User } from "../models";
+import { HttpException, clearYupPath } from "./errors";
 import { verifyToken as verifyTokenFunc } from "./tokens";
 
 export const validate = (schema) => async (req, res, next) => {
@@ -27,7 +23,6 @@ export const validate = (schema) => async (req, res, next) => {
           message: e,
         });
       });
-
       return acc;
     }, []);
 
@@ -36,9 +31,7 @@ export const validate = (schema) => async (req, res, next) => {
   }
 };
 
-export const verifyToken =
-  (roles = []) =>
-  async (req, res, next) => {
+export const verifyToken = () => async (req, res, next) => {
     const authorization = req.header("Authorization");
 
     try {

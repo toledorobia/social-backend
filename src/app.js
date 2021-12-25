@@ -40,7 +40,8 @@ app.use((req, res, next) => {
   next(err);
 });
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
+  console.log("error catch", err);
   const json = {
     status: err.status || 500,
     message: err.message,
@@ -49,6 +50,7 @@ app.use((err, req, res) => {
   if (err.errors) {
     json.errors = err.errors;
   }
+
 
   res.status(err.status || 500).json(json);
 });

@@ -1,7 +1,7 @@
 import multer from "multer";
-import config from "../../config";
-import { httpError } from "../../libs/errors";
-import { makeFilename, valueOrDefault, isSomething } from "../../libs/helpers";
+import { HttpException } from "../../libs/errors";
+import { isSomething } from "../../libs/helpers"; 
+import { processImage } from "../../libs/files"; 
 import { Post } from "../../models";
 
 const storage = multer.memoryStorage();
@@ -20,24 +20,34 @@ export const uploadImageMulter = multer({
 });
 
 const createPost = async (req, res, next) => {
-  console.log(req.files);
+  try {
+    console.log(req.files);
 
-  const { content, image } = req.body;
+    const post = new Post({
+      user: {
+        userId: req.user._id,
+        name: req.user.name,
+        avatar: req.user.avatar,
+      },
+    });
 
-  const post = new Post({
-    user: {
-      userId: req.user._id,
-      name: req.user.name,
-      avatar: req.user.avatar,
-    },
-    content,
-    image,
-  });
+    const { content } = req.body;
+    if (isSomething(content)) {
+      post.content = content;
+    }
 
-  await post.save();
+    const file = req.file;
+    if (isSomething(file)) {
+      const url = await processImage(file, "./public/images");
+      post.image = url;
+    }
 
-  const { deleted, ..._post } = post.toObject();
-  res.json({ _post });
+    await post.save();
+
+    res.json(post.cleanObject());
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default createPost;

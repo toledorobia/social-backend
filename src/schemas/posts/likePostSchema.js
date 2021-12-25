@@ -8,6 +8,9 @@ const likePostSchema = yup.object({
       .required()
       .label("Id"),
   }),
+  body: yup.object({
+    like: yup.boolean().required().label("Like"),
+  }),
 });
 
 export default likePostSchema;

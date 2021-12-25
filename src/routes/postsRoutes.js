@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, verifyCookie, verifyToken } from "../libs/middlewares";
+import { validate, verifyToken } from "../libs/middlewares";
 import * as postsController from "../controllers/posts";
 import * as postsSchema from "../schemas/posts";
 
@@ -18,7 +18,7 @@ router.get(
 router.post(
   "/",
   verifyToken(),
-  // postsController.imagespostsUpload.array("images"),
+  postsController.uploadImageMulter.single("image"),
   validate(postsSchema.createPostSchema),
   postsController.createPost
 );
@@ -31,7 +31,7 @@ router.delete(
 );
 
 router.post(
-  "/like/:id",
+  "/:id/like",
   verifyToken(),
   validate(postsSchema.likePostSchema),
   postsController.likePost

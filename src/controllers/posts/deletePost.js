@@ -1,22 +1,23 @@
-import config from "../../config";
-import { httpError } from "../../libs/errors";
+import { HttpException } from "../../libs/errors";
 import { Post } from "../../models";
 
 const deletePost = async (req, res, next) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const post = await Post.findById(id);
-  if (!post) {
-    return next(httpError(404, "Post not found"));
+    const post = await Post.findById(id);
+    if (!post) {
+      throw new HttpException(404, "Post not found");
+    }
+
+    post.deleted = true;
+    await post.save();
+
+    res.json(post.cleanObject());
+  } catch (error) {
+    next(error);
   }
-
-  post.deleted = true;
-  await post.save();
-
-  res.json({
-    status: true,
-    message: "Post deleted successfully",
-  });
+  
 
   // Post.deleteOne({ _id: id }, (err) => {
   //   if (err) {

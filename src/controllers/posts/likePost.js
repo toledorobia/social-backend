@@ -1,9 +1,13 @@
-import config from "../../config";
-import { httpError } from "../../libs/errors";
+import { HttpException } from "../../libs/errors";
 import { Post } from "../../models";
 import _ from "lodash";
 
 const likePost = async (req, res, next) => {
+  try {
+    
+  }
+
+
   const { id } = req.params;
 
   const post = await Post.findById(id);
