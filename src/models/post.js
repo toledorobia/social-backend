@@ -37,4 +37,8 @@ postSchema.methods.cleanObject = function () {
   return { id, comments: [], ...post };
 };
 
+postSchema.statics.getById = function (id) {
+  return this.findOne({ _id: id }).populate("likes.user", "_id name avatar");
+};
+
 export default model("Post", postSchema);

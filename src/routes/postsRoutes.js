@@ -30,7 +30,7 @@ router.delete(
   postsController.deletePost
 );
 
-router.post(
+router.put(
   "/:id/like",
   verifyToken(),
   validate(postsSchema.likePostSchema),
