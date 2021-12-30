@@ -20,9 +20,7 @@ const createComment = async (req, res, next) => {
   });
 
   await comment.save();
-  // eslint-disable-next-line no-unused-vars
-  const { deleted, ..._comment } = comment.toObject();
-  res.json(_comment);
+  res.json(comment.cleanObject());
 };
 
 export default createComment;

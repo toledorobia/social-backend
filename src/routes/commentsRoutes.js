@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, verifyCookie, verifyToken } from "../libs/middlewares";
+import { validate, verifyToken } from "../libs/middlewares";
 import * as commentsController from "../controllers/comments";
 import * as commentsSchema from "../schemas/comments";
 
@@ -26,11 +26,11 @@ router.delete(
   commentsController.deleteComment
 );
 
-router.post(
-  "/like/:id",
-  verifyToken(),
-  validate(commentsSchema.likeCommentSchema),
-  commentsController.likeComment
-);
+// router.post(
+//   "/like/:id",
+//   verifyToken(),
+//   validate(commentsSchema.likeCommentSchema),
+//   commentsController.likeComment
+// );
 
 export default router;

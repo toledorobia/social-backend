@@ -1,23 +1,26 @@
 import { HttpException } from "../../libs/errors";
-import { Post } from "../../models";
+import { Comment, Post } from "../../models";
 import _ from "lodash";
 
-const likePost = async (req, res, next) => {
-  console.log("params", req.params);
+const likePostComment = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
+    const { id, commentId } = req.params;
 
     const post = await Post.findById(id);
     if (!post) {
       throw new HttpException(404, "Post not found");
     }
 
-    const exists = _.some(post.likes, { user: req.user._id });
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      throw new HttpException(404, "Comment not found");
+    }
+
+    const exists = _.some(comment.likes, { user: req.user._id });
     if (!exists) {
-      await Post.updateOne(
+      await Comment.updateOne(
         {
-          _id: post._id,
+          _id: comment._id,
         },
         {
           $push: {
@@ -28,9 +31,9 @@ const likePost = async (req, res, next) => {
         }
       );
     } else {
-      await Post.updateOne(
+      await Comment.updateOne(
         {
-          _id: post._id,
+          _id: comment._id,
         },
         {
           $pull: {
@@ -42,11 +45,11 @@ const likePost = async (req, res, next) => {
       );
     }
 
-    const postUpdated = await Post.getById(post._id);
-    res.json(postUpdated);
+    const updatedComment = await Comment.getById(commentId);
+    res.json(updatedComment);
   } catch (error) {
     next(error);
   }
 };
 
-export default likePost;
+export default likePostComment;

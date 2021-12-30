@@ -27,4 +27,20 @@ export const commentSchema = new Schema(
   }
 );
 
+commentSchema.methods.cleanObject = function () {
+  // eslint-disable-next-line no-unused-vars
+  const { deleted, _id: id, ...comment } = this.toObject();
+  return { id, ...comment };
+};
+
+commentSchema.statics.getByPost = async function (postId) {
+  const comments = await this.find({ postId, deleted: false }).populate("likes.user", "_id name avatar");
+  return comments.map((comment) => comment.cleanObject());
+};
+
+commentSchema.statics.getById = async function (id) {
+  const comment = await this.findById(id).populate("likes.user", "_id name avatar");
+  return comment.cleanObject();
+};
+
 export default model("Comment", commentSchema);

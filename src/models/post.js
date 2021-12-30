@@ -31,14 +31,25 @@ const postSchema = new Schema(
   }
 );
 
-postSchema.methods.cleanObject = function () {
+postSchema.methods.cleanObject = function (others = {}) {
   // eslint-disable-next-line no-unused-vars
   const { deleted, _id: id, ...post } = this.toObject();
-  return { id, comments: [], ...post };
+  return { id, comments: [], ...post, ...others };
 };
 
-postSchema.statics.getById = function (id) {
-  return this.findOne({ _id: id }).populate("likes.user", "_id name avatar");
+postSchema.statics.getById = async function (id) {
+  const post = await this.findOne({ _id: id }).populate("likes.user", "_id name avatar");
+  return post.cleanObject({ comments: [], commentsLoaded: false });
 };
+
+
+// eslint-disable-next-line no-unused-vars
+postSchema.statics.feed = async function (page, limit) {
+  const posts = await this.find({ deleted: false })
+    .populate("likes.user", "_id name avatar")
+    .sort({ createdAt: -1 });
+
+  return posts.map((post) => post.cleanObject({ comments: [], commentsLoaded: false }));
+}
 
 export default model("Post", postSchema);

@@ -1,7 +1,10 @@
-import { httpError } from "../../libs/errors";
+import { HttpException } from "../../libs/errors";
 import { Comment } from "../../models";
 
-const deleteComment = async (req, res, next) => {
+const deletePostComment = async (req, res, next) => {
+  
+
+
   const { id } = req.params;
 
   const comment = await Comment.findById(id);
@@ -29,4 +32,4 @@ const deleteComment = async (req, res, next) => {
   // });
 };
 
-export default deleteComment;
+export default deletePostComment;
