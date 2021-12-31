@@ -52,4 +52,13 @@ postSchema.statics.feed = async function (page, limit) {
   return posts.map((post) => post.cleanObject({ comments: [], commentsLoaded: false }));
 }
 
+// eslint-disable-next-line no-unused-vars
+postSchema.statics.profileFeed = async function (userId, page, limit) {
+  const posts = await this.find({ "user.id": userId, deleted: false })
+    .populate("likes.user", "_id name avatar")
+    .sort({ createdAt: -1 });
+
+  return posts.map((post) => post.cleanObject({ comments: [], commentsLoaded: false }));
+}
+
 export default model("Post", postSchema);

@@ -6,6 +6,7 @@ import * as postsSchema from "../schemas/posts";
 const router = Router();
 
 router.get("/feed", verifyToken(), postsController.feedPosts);
+
 router.get(
   "/profile/:userId?",
   verifyToken(),
@@ -54,6 +55,13 @@ router.put(
   verifyToken(),
   validate(postsSchema.likePostCommentSchema),
   postsController.likePostComment
+);
+
+router.delete(
+  "/:id/comments/:commentId",
+  verifyToken(),
+  validate(postsSchema.deletePostCommentSchema),
+  postsController.deletePostComment
 );
 
 // router.put(

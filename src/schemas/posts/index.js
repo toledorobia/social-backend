@@ -5,6 +5,7 @@ import profilePostsSchema from "./profilePostsSchema";
 import createPostCommentSchema from "./createPostCommentSchema";
 import postCommentsSchema from "./postCommentsSchema";
 import likePostCommentSchema from "./likePostCommentSchema";
+import deletePostCommentSchema from "./deletePostCommentSchema";
 
 export {
   createPostSchema,
@@ -14,4 +15,5 @@ export {
   createPostCommentSchema,
   postCommentsSchema,
   likePostCommentSchema,
+  deletePostCommentSchema,
 };

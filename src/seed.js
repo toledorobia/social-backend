@@ -1,4 +1,3 @@
-import faker from "faker";
 import mongoose from "mongoose";
 import config from "./config";
 

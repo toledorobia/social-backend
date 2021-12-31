@@ -6,7 +6,6 @@ import testRoutes from "./routes/testRoutes";
 import authRoutes from "./routes/authRoutes";
 import usersRoutes from "./routes/usersRoutes";
 import postsRoutes from "./routes/postsRoutes";
-import commentsRoutes from "./routes/commentsRoutes";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -32,7 +31,6 @@ app.use("/api/test", testRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/posts", postsRoutes);
-app.use("/api/comments", commentsRoutes);
 
 app.use((req, res, next) => {
   const err = new Error("Not Found");
@@ -40,6 +38,7 @@ app.use((req, res, next) => {
   next(err);
 });
 
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.log("error catch", err);
   const json = {

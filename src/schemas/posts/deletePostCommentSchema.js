@@ -1,17 +1,18 @@
 import yup from "../../libs/yup";
 
-const verifyPasswordResetHash = yup.object({
+const deletePostCommentSchema = yup.object({
   params: yup.object({
     id: yup
       .string()
       .mongodbId("Invalid id")
       .required()
       .label("Id"),
-    hash: yup
+    commentId: yup
       .string()
-      .matches(/^[0-9a-fA-F]{64}$/, "Invalid hash")
+      .mongodbId("Invalid comment id")
       .required()
-      .label("Hash"),
+      .label("Id"),
   }),
 });
-export default verifyPasswordResetHash;
+
+export default deletePostCommentSchema;

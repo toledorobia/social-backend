@@ -6,6 +6,7 @@ import profilePosts from "./profilePosts";
 import createPostComment from "./createPostComment";
 import postComments from "./postComments";
 import likePostComment from "./likePostComment";
+import deletePostComment from "./deletePostComment";
 
 export { 
   createPost,
@@ -17,4 +18,5 @@ export {
   createPostComment,
   postComments,
   likePostComment,
+  deletePostComment,
 };

@@ -15,7 +15,7 @@ const createPostComment = async (req, res, next) => {
       postId: post._id,
       content,
       user: {
-        userId: req.user._id,
+        id: req.user._id,
         name: req.user.name,
         avatar: req.user.avatar,
       },

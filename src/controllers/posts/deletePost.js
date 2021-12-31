@@ -17,18 +17,6 @@ const deletePost = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  
-
-  // Post.deleteOne({ _id: id }, (err) => {
-  //   if (err) {
-  //     return next(httpError(500, "Internal server error"));
-  //   } else {
-  //     res.json({
-  //       status: true,
-  //       message: "Post deleted successfully",
-  //     });
-  //   }
-  // });
 };
 
 export default deletePost;

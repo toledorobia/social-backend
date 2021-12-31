@@ -1,22 +1,18 @@
-import multer from "multer";
-import config from "../../config";
-import { httpError } from "../../libs/errors";
-import { makeFilename, valueOrDefault, isSomething } from "../../libs/helpers";
+import { isSomething } from "../../libs/helpers";
 import { Post } from "../../models";
 
 const profilePosts = async (req, res, next) => {
-  let { userId } = req.params;
-  if (!isSomething(userId)) {
-    userId = req.user._id;
+  try {
+    let { userId } = req.params;
+    if (!isSomething(userId)) {
+      userId = req.user._id;
+    }
+  
+    const posts = await Post.profileFeed(userId);
+    res.json(posts);
+  } catch (error) {
+    next(error);
   }
-
-  // console.log("userId", userId);
-
-  const posts = await Post.find({ "user.userId": userId })
-    .populate("likes.user", "_id name avatar")
-    .sort({ createdAt: -1 });
-
-  res.json({ posts });
 };
 
 export default profilePosts;

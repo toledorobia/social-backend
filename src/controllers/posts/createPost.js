@@ -25,7 +25,7 @@ const createPost = async (req, res, next) => {
 
     const post = new Post({
       user: {
-        userId: req.user._id,
+        id: req.user._id,
         name: req.user.name,
         avatar: req.user.avatar,
       },
