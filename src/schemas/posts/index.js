@@ -6,6 +6,7 @@ import createPostCommentSchema from "./createPostCommentSchema";
 import postCommentsSchema from "./postCommentsSchema";
 import likePostCommentSchema from "./likePostCommentSchema";
 import deletePostCommentSchema from "./deletePostCommentSchema";
+import getPostSchema from "./getPostSchema";
 
 export {
   createPostSchema,
@@ -16,4 +17,5 @@ export {
   postCommentsSchema,
   likePostCommentSchema,
   deletePostCommentSchema,
+  getPostSchema,
 };

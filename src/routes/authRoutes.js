@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate, verifyToken } from "../libs/middlewares";
+import { validate, verifyToken, limiter } from "../libs/middlewares";
 import * as authSchema from "../schemas/auth";
 import * as authController from "../controllers/auth";
 
@@ -12,6 +12,7 @@ router.post(
 );
 router.post(
   "/signin",
+  limiter(true, 3, 300),
   validate(authSchema.signInSchema),
   authController.signIn
 );

@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import helmet from "helmet";
 
+import { limiter } from "./libs/middlewares";
 import testRoutes from "./routes/testRoutes";
 import authRoutes from "./routes/authRoutes";
 import usersRoutes from "./routes/usersRoutes";
@@ -22,9 +24,13 @@ app.use(
 );
 app.use("/static", express.static("public"));
 app.use(morgan("dev"));
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// limiter
+app.use(limiter(false, 30, 60));
 
 // routes
 app.use("/api/test", testRoutes);
@@ -40,7 +46,7 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  console.log("error catch", err);
+  // console.log("error catch", err);
   const json = {
     status: err.status || 500,
     message: err.message,

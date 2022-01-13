@@ -22,6 +22,13 @@ router.post(
   postsController.createPost
 );
 
+router.get(
+  "/:id",
+  verifyToken(),
+  validate(postsSchema.getPostSchema),
+  postsController.getPost
+);
+
 router.delete(
   "/:id",
   verifyToken(),

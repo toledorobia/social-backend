@@ -34,7 +34,9 @@ commentSchema.methods.cleanObject = function () {
 };
 
 commentSchema.statics.getByPost = async function (postId) {
-  const comments = await this.find({ postId, deleted: false }).populate("likes.user", "_id name avatar");
+  const comments = await this.find({ postId, deleted: false })
+    .populate("likes.user", "_id name avatar")
+    .sort({ createdAt: -1 });
   return comments.map((comment) => comment.cleanObject());
 };
 

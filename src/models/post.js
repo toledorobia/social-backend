@@ -39,6 +39,10 @@ postSchema.methods.cleanObject = function (others = {}) {
 
 postSchema.statics.getById = async function (id) {
   const post = await this.findOne({ _id: id }).populate("likes.user", "_id name avatar");
+  if (!post) {
+    throw new Error("Post not found");
+  }
+
   return post.cleanObject({ comments: [], commentsLoaded: false });
 };
 
