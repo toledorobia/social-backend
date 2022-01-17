@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 
+import config from "./config";
 import { limiter } from "./libs/middlewares";
 import testRoutes from "./routes/testRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -13,12 +14,21 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 // settings
-app.set("port", process.env.PORT || 8080);
+app.set("port", config.port);
+
+let origins = [];
+
+if (config.env == "prod") {
+  origins = ["https://social-jto-app.web.app", "https://social-jto-app.firebaseapp.com"];
+}
+else {
+  origins = ["http://localhost:3000"];
+}
 
 // middlewares
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: origins,
     credentials: true,
   })
 );

@@ -4,8 +4,20 @@ import { v4 as uuidv4 } from "uuid";
 import { mkdirSync } from "fs";
 import sharp from "sharp";
 import config from "../config";
-import serviceAccount from "../../serviceAccountKey.json";
 import { createFileName, createFirebaseStoreDownloadUrl } from './helpers';
+
+const serviceAccount = {
+  "type": config.firebaseType,
+  "project_id": config.firebaseProjectId,
+  "private_key_id": config.firebasePrivateKeyId,
+  "private_key": config.firebasePrivateKey,
+  "client_email": config.firebaseClientEmail,
+  "client_id": config.firebaseClientId,
+  "auth_uri": config.firebaseAuthUri,
+  "token_uri": config.firebaseTokenUri,
+  "auth_provider_x509_cert_url": config.firebaseAuthProviderX509CertUrl,
+  "client_x509_cert_url": config.firebaseClientX509CertUrl,
+};
 
 initializeApp({
   credential: cert(serviceAccount),

@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
+import config from "../config";
 import dayjs from "./dayjs";
 import { HttpException } from "./errors";
 
 export const getTokens = (payload, secret) => {
-  const token = jwt.sign(payload, secret, { expiresIn: 30 });
+  const token = jwt.sign(payload, secret, { expiresIn: 300 });
 
   payload.refresh = true;
   const refreshToken = jwt.sign(payload, secret, {
@@ -34,7 +35,7 @@ export const setRefreshToken = (res, token) => {
   res.cookie("token", token, {
     httpOnly: true,
     path: "/api/auth/refresh",
-    //secure: process.env.NODE_ENV === "production",
+    secure: config.env == "prod",
   });
 };
 
