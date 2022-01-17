@@ -17,12 +17,11 @@ const app = express();
 app.set("port", config.port);
 
 let origins = [];
-
 if (config.env == "prod") {
   origins = ["https://social-jto-app.web.app", "https://social-jto-app.firebaseapp.com"];
 }
 else {
-  origins = ["http://localhost:3000"];
+  origins = ["https://localhost:3000"];
 }
 
 // middlewares

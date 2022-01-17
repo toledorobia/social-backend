@@ -5,6 +5,8 @@ export default {
   env: process.env.APP_ENV,
   port: process.env.PORT || 8080,
   appUrl: process.env.APP_URL,
+  sslCrtFile: process.env.SSL_CRT_FILE,
+  sslKeyFile: process.env.SSL_KEY_FILE,
 
   mongodbURI: process.env.MONGODB_URI,
   tokenSecret: process.env.TOKEN_SECRET,

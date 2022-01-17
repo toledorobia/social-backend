@@ -35,7 +35,8 @@ export const setRefreshToken = (res, token) => {
   res.cookie("token", token, {
     httpOnly: true,
     path: "/api/auth/refresh",
-    secure: config.env == "prod",
+    secure: true,
+    // secure: config.env == "prod",
   });
 };
 
