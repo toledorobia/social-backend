@@ -19,7 +19,7 @@ const serviceAccount = {
   "client_x509_cert_url": config.firebaseClientX509CertUrl,
 };
 
-console.log("serviceAccount", serviceAccount);
+// console.log("serviceAccount", serviceAccount);
 
 initializeApp({
   credential: cert(serviceAccount),
