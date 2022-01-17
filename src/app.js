@@ -24,6 +24,8 @@ else {
   origins = ["https://localhost:3000"];
 }
 
+console.log("Origins", origins);
+
 // middlewares
 app.use(
   cors({
