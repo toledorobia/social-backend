@@ -31,12 +31,12 @@ export const verifyToken = (token, secret) => {
   }
 };
 
-export const setRefreshToken = (res, token) => {
+export const setRefreshToken = (req, res, token) => {
   res.cookie("token", token, {
     httpOnly: true,
     path: "/api/auth/refresh",
     secure: true,
-    // secure: config.env == "prod",
+    domain: new URL(req.get('origin')).hostname,
   });
 };
 

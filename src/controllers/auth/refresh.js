@@ -29,7 +29,7 @@ const refresh = async (req, res, next) => {
       config.tokenSecret
     );
 
-    setRefreshToken(res, newRefreshToken);
+    setRefreshToken(req, res, newRefreshToken);
     res.json({ status: true, token: newToken });
   } catch (error) {
     next(error);

@@ -30,7 +30,7 @@ const signIn = async (req, res, next) => {
       config.tokenSecret
     );
 
-    setRefreshToken(res, refreshToken);
+    setRefreshToken(req, res, refreshToken);
     res.json({ status: true, user: user.cleanObject(), token });
   } catch (error) {
     next(error);
