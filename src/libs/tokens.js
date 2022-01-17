@@ -43,6 +43,9 @@ export const setRefreshToken = (req, res, token) => {
 
 export const removeRefreshToken = (res) => {
   res.clearCookie("token", {
+    httpOnly: true,
     path: "/api/auth/refresh",
+    secure: true,
+    sameSite: "none",
   });
 };
