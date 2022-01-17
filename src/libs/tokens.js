@@ -36,7 +36,8 @@ export const setRefreshToken = (req, res, token) => {
     httpOnly: true,
     path: "/api/auth/refresh",
     secure: true,
-    domain: new URL(req.get('origin')).hostname,
+    sameSite: "none",
+    //domain: new URL(req.get('origin')).hostname,
   });
 };
 
