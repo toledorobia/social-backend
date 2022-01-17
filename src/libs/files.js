@@ -10,7 +10,7 @@ const serviceAccount = {
   "type": config.firebaseType,
   "project_id": config.firebaseProjectId,
   "private_key_id": config.firebasePrivateKeyId,
-  "private_key": config.firebasePrivateKey,
+  "private_key": config.firebasePrivateKey.replace(/\\n/g, '\n'),
   "client_email": config.firebaseClientEmail,
   "client_id": config.firebaseClientId,
   "auth_uri": config.firebaseAuthUri,
